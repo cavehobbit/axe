@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Axolotl Research Factory</title>
+    
+
+
     <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,30 +18,33 @@
         
         body {
             font-family: 'Space Grotesk', sans-serif;
-            background-color: #ffe4f0;
-            
+            background-color: #ffe4f0; 
             color: #000;
             overflow-x: hidden;
         }
 
-    
+       
+
+
+        .scene {
+            display: none !important; 
+            min-height: 100vh;
+            width: 100vw;
+        }
+        .scene.active { display: block !important; }
+
+        #welcome-scene.active, #ocean-scene.active {
+            display: flex !important;
+        }
 
         #welcome-scene {
-            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
             background: url('images/pk.jpg') center/cover no-repeat;
         }
 
-        #main-scene, #full-article-scene {
-            display: none; 
-            min-height: 100vh;
-        }
-
-    
-
+        /* welcome screen */
         .welcome-title {
             font-family: 'Bungee', cursive;
             font-size: 10vw; 
@@ -46,23 +54,15 @@
             margin-bottom: 50px;
             text-shadow: 6px 6px 0px #000;
         }
-
-        .letter-r {
-            position: relative;
-            display: inline-block;
-        }
-
+        .letter-r { position: relative; display: inline-block; }
         .axolotl-logo {
             position: absolute;
             bottom: 85%; 
-
             left: 50%;
             transform: translateX(-50%);
             width: 140px; 
             z-index: 10;
         }
-
-    
 
         .continue-btn, .back-btn, .tank-btn {
             background: #fff;
@@ -80,14 +80,12 @@
             display: inline-block;
             margin-top: 20px;
         }
-
         .continue-btn:hover, .back-btn:hover, .tank-btn:hover {
             transform: translate(4px, 4px);
             box-shadow: 4px 4px 0px #ff69b4;
         }
 
-    
-
+        /*title n search */
         .header {
             background: #ffb3d9;
             padding: 40px 20px;
@@ -97,7 +95,6 @@
             border-radius: 0 0 30px 30px; 
             margin-bottom: 40px;
         }
-
         .mini-title {
             font-family: 'Bungee', cursive;
             font-size: 48px;
@@ -105,7 +102,6 @@
             text-shadow: 3px 3px 0px #000;
             margin-bottom: 30px;
         }
-
         .search-box {
             width: 100%;
             max-width: 800px;
@@ -120,7 +116,6 @@
         }
 
         
-
         .hamburger {
             position: absolute;
             top: 40px;
@@ -138,14 +133,12 @@
             cursor: pointer;
             box-shadow: 5px 5px 0px #000;
         }
-
         .hamburger span {
             width: 35px;
             height: 5px;
             background: #000;
             border-radius: 10px;
         }
-
         .hamburger:hover {
             transform: translate(2px, 2px);
             box-shadow: 3px 3px 0px #000;
@@ -165,11 +158,7 @@
             display: flex;
             flex-direction: column;
         }
-
-        .sidebar.open {
-            left: 0;
-        }
-
+        .sidebar.open { left: 0; }
         .sidebar-header {
             background: #ff1493;
             color: #fff;
@@ -181,20 +170,15 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .close-btn {
             background: none;
-
             border: none;
             color: #fff;
             font-size: 30px;
             font-weight: bold;
             cursor: pointer;
         }
-
         .menu-link {
-
-
             display: block;
             padding: 25px 30px;
             font-size: 18px;
@@ -204,14 +188,12 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-
         .menu-link:hover {
             background: #ffb3d9;
             padding-left: 40px;
         }
 
-      
-
+       
         .content-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -229,24 +211,20 @@
             gap: 40px;
             align-items: flex-start;
             position: relative; 
-
         }
 
-     
-
+        
         .pinkaxe-badge {
             position: absolute;
-            top: -30px;
-            left: -30px;
-            width: 90px; 
+            top: -50px;
+            left: -50px;
+            width: 190px; /* Increased from 140px */
             z-index: 5;
             transform: rotate(-15deg);
+            pointer-events: none;
         }
 
-        .article-text {
-            flex: 1;
-        }
-
+        .article-text { flex: 1; }
         .article-title {
             font-family: 'Bungee', cursive;
             font-size: 40px;
@@ -258,9 +236,6 @@
             text-decoration: none;
             transition: all 0.2s;
         }
-
-        
-
         .article-title:hover {
             color: #000;
             text-decoration: underline;
@@ -268,13 +243,11 @@
             text-underline-offset: 8px;
             text-decoration-color: #ff1493;
         }
-
         .article-text p {
             font-size: 18px;
             line-height: 1.7;
             margin-bottom: 20px;
         }
-
         .article-text h3 {
             font-size: 24px;
             color: #000;
@@ -285,7 +258,6 @@
             border: 3px solid #000;
             border-radius: 20px; 
         }
-
         .article-image {
             width: 400px;
             height: 300px;
@@ -302,13 +274,19 @@
             flex-shrink: 0;
         }
 
-     
-
-        .full-article-content {
-            display: none; 
-
-        }
         
+        .warning-box {
+            background: #ffeb3b;
+            border: 4px solid #000;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #000;
+            box-shadow: 6px 6px 0px #ff69b4;
+        }
+
+        .full-article-content { display: none; }
         .useful-links {
             margin-top: 40px;
             padding: 30px;
@@ -317,14 +295,12 @@
             border-radius: 20px;
             box-shadow: 8px 8px 0px #ffb3d9;
         }
-
         .useful-links h4 {
             font-family: 'Bungee', cursive;
             color: #ff1493;
             font-size: 24px;
             margin-bottom: 15px;
         }
-
         .useful-links a {
             display: block;
             font-size: 18px;
@@ -334,7 +310,6 @@
             text-decoration: none;
             transition: color 0.2s;
         }
-
         .useful-links a:hover {
             color: #ff1493;
             text-decoration: underline;
@@ -342,13 +317,179 @@
             text-underline-offset: 4px;
         }
 
+        
+        #ocean-scene {
+            background: linear-gradient(to bottom, #004d7a, #001a33);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .diving-text {
+            font-family: 'Bungee', cursive;
+            font-size: 60px;
+            margin-bottom: 40px;
+            text-shadow: 4px 4px 0px #000;
+            animation: float 2s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .loading-container {
+            width: 600px;
+            height: 40px;
+            border: 6px solid #fff;
+            border-radius: 20px;
+            padding: 4px;
+            box-shadow: 8px 8px 0px #000;
+            background: rgba(0,0,0,0.5);
+        }
+        .loading-bar {
+            height: 100%;
+            background: #ff69b4;
+            border-radius: 10px;
+            width: 0%;
+        }
+        .bubbles {
+            position: absolute;
+            bottom: -50px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: rise 4s infinite ease-in;
+        }
+        @keyframes rise {
+            to { transform: translateY(-120vh); opacity: 0; }
+        }
+
+        
+        #terminal-scene {
+            background: linear-gradient(to bottom, #004d7a, #001a33);
+            padding: 20px;
+        }
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .terminal-close {
+            background: #0088cc;
+            color: #fff;
+            font-family: 'Bungee', cursive;
+            padding: 10px 20px;
+            border: 4px solid #fff;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 4px 4px 0px #000;
+        }
+        .terminal-close:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+        #terminal-container {
+            width: 100%;
+            height: calc(100vh - 100px);
+            border: 6px solid #87ceeb;
+            padding: 20px;
+            background: #001a33;
+            border-radius: 15px;
+            box-shadow: inset 0 0 20px #000, 8px 8px 0px #000;
+        }
+
+        
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 30px;
+            background: #000; color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px; font-weight: bold;
+            padding: 10px 20px; border: 4px solid #fff;
+            cursor: pointer; border-radius: 20px;
+        }
+        
+        #paper-modal .modal-content {
+            background: #fdf5e6; 
+            color: #222;
+            font-family: 'Times New Roman', Times, serif;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 60px;
+            border: 2px solid #a68a61;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.5);
+            line-height: 1.6;
+        }
+        #paper-modal h1 { text-align: center; border-bottom: 2px solid #555; padding-bottom: 10px; margin-bottom: 20px; }
+
+        #web-modal .modal-content {
+            background: #ffe4f0;
+            border: 8px solid #000;
+            border-radius: 20px;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 15px 15px 0px #ff69b4;
+            display: flex;
+            flex-direction: column;
+        }
+        .retro-web-header {
+            background: #ff1493;
+            color: #fff;
+            padding: 30px;
+            font-family: 'Bungee', cursive;
+            font-size: 32px;
+            text-align: center;
+            border-bottom: 6px solid #000;
+        }
+        .retro-taskbar {
+            display: flex;
+            background: #000;
+            border-bottom: 6px solid #000;
+        }
+        .taskbar-btn {
+            flex: 1;
+            background: #ffb3d9;
+            color: #000;
+            font-weight: bold;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            padding: 15px;
+            text-align: center;
+            border-right: 4px solid #000;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .taskbar-btn.active { background: #fff; }
+        .retro-body { padding: 40px; }
+        .retro-tab { display: none; }
+        .retro-tab.active { display: block; }
+        .retro-tab h2 { color: #ff1493; margin-bottom: 20px; font-size: 28px; }
+        .retro-tab p { font-size: 18px; line-height: 1.6; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
+    
 
-
-    <div id="welcome-scene">
+    <div id="welcome-scene" class="scene active">
         <div class="welcome-title">
             AXOLOTL<br>
             <span class="letter-r">
@@ -360,120 +501,87 @@
         <button class="continue-btn" onclick="enterMainSite()">CONTINUE</button>
     </div>
 
+   
 
-
-    <div id="main-scene">
+    <div id="main-scene" class="scene">
         
-     
-
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 TOPICS
                 <button class="close-btn" onclick="toggleMenu()">X</button>
             </div>
-           
-
             <div class="menu-link" onclick="jumpToSection('what-are')">What are Axolotls</div>
-            <div class="menu-link" onclick="jumpToSection('albino-trait')">Albino Trait</div>
+            <div class="menu-link" onclick="jumpToSection('axolotl-morphs')">Axolotl Morphs</div>
             <div class="menu-link" onclick="jumpToSection('cancer-research')">Cancer Correlation</div>
             <div class="menu-link" onclick="jumpToSection('where-to-get')">Where to Get</div>
             <div class="menu-link" onclick="jumpToSection('how-to-care')">How to Care</div>
             
-           
-
-
             <div style="margin-top: auto; border-top: 6px solid #000;">
-                <div class="menu-link" style="background: #ff1493; color: #fff;" onclick="openTerminal()">Terminal</div>
+                <div class="menu-link" style="background: #ff1493; color: #fff;" onclick="startTerminalSequence()">Terminal</div>
             </div>
         </div>
 
-        <!-- Header -->
         <div class="header">
             <div class="hamburger" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
-            
             <div class="mini-title">AXOLOTL RESEARCH FACTORY</div>
             <input type="text" id="search-input" class="search-box" placeholder="Search articles (e.g. 'care', 'cancer', 'albino')..." onkeyup="filterArticles()">
         </div>
 
-       
-
         <div class="content-container">
-            
-         
+           
+
             <div class="article-section" id="what-are">
-               
-
-
                 <img src="images/pinkaxe.png" alt="" class="pinkaxe-badge">
-                
                 <div class="article-text">
                     <div class="article-title" onclick="openFullArticle('full-what-are')">What are Axolotls?</div>
-                    <p>Axolotls (Ambystoma mexicanum) are incredible aquatic salamanders that originate from the lake complex of Xochimilco near Mexico City. Unlike most amphibians, they are "neotenic", meaning they keep their larval features (like their feathery external gills) for their entire lives.</p>
-                    <h3>Forever Young</h3>
-                    <p>Because they never go through metamorphosis to live on land, they spend their entire 10-15 year lifespan underwater. They have a distinctive "smile" and come in various color morphs.</p>
+                    <p>Axolotls (Ambystoma mexicanum) are incredible aquatic salamanders that originate from the lake complex of Xochimilco near Mexico City. Unlike most amphibians, they are "neotenic", meaning they keep their larval features...</p>
                 </div>
-                <img src="images/axolotl1.jpg" alt="" class="article-image">
+                <img src="images/yeluu.jpg" alt="" class="article-image">
             </div>
 
-           
-            <div class="article-section" id="albino-trait">
+            
+            <div class="article-section" id="axolotl-morphs">
                 <div class="article-text">
-                    <div class="article-title" onclick="openFullArticle('full-albino')">How did Axolotls get their Albino Trait?</div>
-                    <p>The albino trait in axolotls is the result of a recessive genetic mutation that completely halts the production of melanin. This trait was actually introduced and stabilized in laboratory settings.</p>
-                    <h3>Laboratory Origins</h3>
-                    <p>In the 1960s, scientists crossbred a mutant albino tiger salamander with a wild axolotl to introduce the albino gene into the axolotl population. Today, albino axolotls have stunning pale skin and clear/red eyes, making them highly sought after by hobbyists.</p>
+                    <div class="article-title" onclick="openFullArticle('full-morphs')">Axolotl Morphs & Colors</div>
+                    <p>While wild axolotls are typically dark brown, captive breeding has produced incredible color variations (morphs) including Albino, Golden, Leucistic, and Melanoid. Albinos lack melanin entirely, while Goldens shine brilliantly...</p>
                 </div>
-                <img src="images/axolotl2.jpg" alt="" class="article-image">
+                <img src="images/albaxe.jpg" alt="" class="article-image">
             </div>
 
-          
-
+            
             <div class="article-section" id="cancer-research">
                 <div class="article-text">
                     <div class="article-title" onclick="openFullArticle('full-cancer')">Correlation Between Axolotls & Cancer</div>
-                    <p>Axolotls are medical marvels. They can regenerate entire limbs, parts of their heart, spinal cord, and brain with perfect accuracy and—most importantly—without triggering tumor growth.</p>
-                    <h3>Tumor Resistance</h3>
-                    <p>When human cells multiply rapidly to heal a massive wound, there is a high risk of cancer. Axolotls have a biological failsafe that perfectly regulates rapid cell division. Scientists are heavily researching their DNA to understand how they suppress tumors, hoping to apply this to human cancer treatments.</p>
+                    <p>Axolotls are medical marvels. They can regenerate entire limbs, parts of their heart, spinal cord, and brain with perfect accuracy and—most importantly—without triggering tumor growth...</p>
                 </div>
-                <img src="images/axolotl3.jpg" alt="" class="article-image">
+                <img src="images/axecanc.jpg" alt="" class="article-image">
             </div>
 
-          
-
+            
             <div class="article-section" id="where-to-get">
                 <div class="article-text">
                     <div class="article-title" onclick="openFullArticle('full-where-to-get')">Where to get an Axolotl</div>
-                    <p>Getting an axolotl requires finding a responsible source. Because they are critically endangered in the wild, you should never buy wild-caught specimens.</p>
-                    <h3>Reputable Breeders</h3>
-                    <p>The best place to acquire one is through specialized online breeders or dedicated exotic pet expos. Avoid chain pet stores, as they often house them improperly. Always check your local laws, as they are illegal to own in some states (like California and Maine).</p>
+                    <p>Getting an axolotl requires finding a responsible source. Because they are critically endangered in the wild, you should never buy wild-caught specimens. Reputable breeders are the best option...</p>
                 </div>
-                <img src="images/axolotl4.jpg" alt="" class="article-image">
+                <img src="images/tank.jpg" alt="" class="article-image">
             </div>
 
-           
-
+            
             <div class="article-section" id="how-to-care">
+
                 <div class="article-text">
                     <div class="article-title" onclick="openFullArticle('full-how-to-care')">How to take care of an Axolotl</div>
-                    <p>Axolotls are entirely aquatic and require very specific water conditions to survive. They are not beginner pets!</p>
-                    <h3>Tank & Temperature</h3>
-                    <p>A minimum of a 20-gallon long tank is required. The most crucial factor is temperature: they thrive in cold water between 60°F - 64°F (15°C - 18°C). Anything higher causes severe stress.</p>
-                    <h3>Substrate & Food</h3>
-                    <p>Never use gravel, as they will eat it and die from impaction. Use very fine sand or a bare bottom tank. They are carnivores and eat a diet of live earthworms, bloodworms, and high-quality axolotl pellets.</p>
+                    <p>Axolotls are entirely aquatic and require very specific water conditions to survive. Temperature must be strictly controlled, water parameters must be perfect, and they require a specific carnivorous diet...</p>
                 </div>
-                <img src="images/axolotl5.jpg" alt="" class="article-image">
+                <img src="images/cute.jpg" alt="" class="article-image">
             </div>
-
         </div>
     </div>
 
-
-
-    <div id="full-article-scene">
+    
+    <div id="full-article-scene" class="scene">
         <div class="header" style="border-radius: 0; margin-bottom: 0;">
             <div class="mini-title">AXOLOTL RESEARCH FACTORY</div>
             <button class="back-btn" onclick="backToMainSite()" style="font-size: 20px; padding: 15px 30px; margin-top: 0;">← BACK TO ARTICLES</button>
@@ -481,203 +589,430 @@
 
         <div class="content-container">
             
-           
             <div id="full-what-are" class="full-article-content article-section" style="flex-direction: column;">
                 <div class="article-title" style="cursor: default; text-decoration: none;">What are Axolotls? (In-Depth)</div>
                 <div style="display: flex; gap: 40px; margin-bottom: 30px;">
                     <div class="article-text">
                         <p>Axolotls (Ambystoma mexicanum) are an extraordinary phenomenon in biology. Native exclusively to the ancient lake complex of Xochimilco near Mexico City, they possess traits that defy normal amphibian logic.</p>
                         <h3>The Mystery of Neoteny</h3>
-                        <p>Normally, amphibians like frogs and salamanders start life in the water with gills, then go through a massive biological change called metamorphosis to develop lungs and live on land. Axolotls hit the pause button on evolution. They mature, reproduce, and live a full lifespan (up to 15 years) while maintaining their larval appearance—feathery gills and all. Scientists refer to this as "neoteny."</p>
-                        <h3>Critically Endangered</h3>
-                        <p>While extremely popular as pets and lab specimens globally, wild axolotls are on the brink of extinction. Urban sprawl, severe water pollution in Mexico City, and the introduction of invasive fish (like tilapia and carp) that eat their eggs have decimated their natural population. Today, they are listed as Critically Endangered by the IUCN.</p>
+                        <p>Normally, amphibians go through metamorphosis. Axolotls hit the pause button on evolution. They mature while maintaining their larval appearance—feathery gills and all.</p>
                     </div>
-                    <img src="images/axolotl1.jpg" alt="" class="article-image">
-                </div>
-                <div class="useful-links">
-                    <h4>Useful Resources:</h4>
-                    <a href="https://www.nationalgeographic.com/animals/amphibians/facts/axolotl" target="_blank">National Geographic: Axolotl Facts</a>
-                    <a href="https://animals.sandiegozoo.org/animals/axolotl" target="_blank">San Diego Zoo: Axolotl Profile</a>
+                    <img src="images/yeluu.jpg" alt="" class="article-image">
                 </div>
             </div>
 
-            <!-- more: Albino Trait -->
-            <div id="full-albino" class="full-article-content article-section" style="flex-direction: column;">
-                <div class="article-title" style="cursor: default; text-decoration: none;">How did Axolotls get their Albino Trait? (In-Depth)</div>
+         
+            <div id="full-morphs" class="full-article-content article-section" style="flex-direction: column;">
+                <div class="article-title" style="cursor: default; text-decoration: none;">Axolotl Morphs & The Albino Trait (In-Depth)</div>
                 <div style="display: flex; gap: 40px; margin-bottom: 30px;">
                     <div class="article-text">
-                        <p>If you see a bright white axolotl with translucent red eyes, you are looking at a living piece of scientific history. True albinism did not originate naturally in the wild axolotl population of Mexico.</p>
-                        <h3>The Laboratory Crossbreed</h3>
-                        <p>In the 1960s, researchers studying genetics and pigmentation needed an albino axolotl. To achieve this, a scientist named Humphrey took a mutant albino Tiger Salamander (a close genetic cousin) and successfully hybridized it with a wild axolotl. After generations of careful breeding, they isolated the albino gene while maintaining the axolotl's neotenic (water-bound) traits.</p>
-                        <h3>Melanin & Genetics</h3>
-                        <p>Albinism is caused by a lack of tyrosinase, an enzyme required to produce melanin. Because they produce zero pigment, their eyes appear red (you are seeing the blood vessels behind the eye). It is important not to confuse an Albino with a "Leucistic" axolotl, which is pink/white but still has black, pigmented eyes.</p>
+                        <p>Wild axolotls are typically a dark, mottled brown or green. However, through laboratory breeding and the pet trade, several distinct "morphs" have been established.</p>
+                        <h3>The Albino Trait</h3>
+                        <p>True albinism did not originate naturally in the wild axolotl population. In the 1960s, researchers hybridized a mutant albino Tiger Salamander with a wild axolotl. Albinos completely lack melanin, resulting in white/pink skin and clear or red eyes.</p>
+                        <h3>Golden Axolotls</h3>
+                        <p>Golden axolotls (or Golden Albinos) are a stunning variation. While they lack dark melanin pigments like regular albinos, they retain yellow/gold pigments (xanthophores) and shiny reflective cells (iridophores). This gives them a brilliant, glowing golden appearance.</p>
                     </div>
-                    <img src="images/axolotl2.jpg" alt="" class="article-image">
-                </div>
-                <div class="useful-links">
-                    <h4>Useful Resources:</h4>
-                    <a href="http://www.axolotl.org/genetics.htm" target="_blank">Axolotl.org: Genetics & Color Morphs</a>
-                    <a href="https://ambystoma.uky.edu/genetic-stock-center" target="_blank">Ambystoma Genetic Stock Center</a>
+                    <img src="images/albaxe.jpg" alt="" class="article-image">
                 </div>
             </div>
 
-            <!-- more: Cancer Research -->
+            
             <div id="full-cancer" class="full-article-content article-section" style="flex-direction: column;">
                 <div class="article-title" style="cursor: default; text-decoration: none;">Correlation Between Axolotls & Cancer (In-Depth)</div>
                 <div style="display: flex; gap: 40px; margin-bottom: 30px;">
                     <div class="article-text">
-                        <p>The axolotl isn't just a cute pet; it holds the key to some of humanity's biggest medical hurdles, particularly regarding regeneration and oncology (cancer research).</p>
-                        <h3>The Master of Regeneration</h3>
-                        <p>If an axolotl loses a leg, it doesn't form a scar. Instead, cells at the wound site revert to stem cells (a "blastema") and completely rebuild the limb—bones, blood vessels, muscles, and nerves—in just a few weeks. They can even regenerate parts of their heart and spinal cord without losing function.</p>
+                        <p>The axolotl holds the key to oncology (cancer research).</p>
                         <h3>Why Don't They Get Cancer?</h3>
-                        <p>In humans, rapid cellular growth (which is necessary to regrow tissue) usually leads to mutations and cancer. The axolotl's immune system, specifically its macrophage cells, heavily polices this growth. They have highly aggressive tumor-suppressing genes. By studying the axolotl's massive genome, scientists are trying to learn how to activate this precise, cancer-free healing process in human medicine.</p>
+                        <p>In humans, rapid cellular growth (needed to heal major wounds) usually leads to mutations. Axolotls have a biological failsafe that perfectly regulates rapid cell division, completely avoiding tumors during limb regeneration.</p>
                     </div>
-                    <img src="images/axolotl3.jpg" alt="" class="article-image">
-                </div>
-                <div class="useful-links">
-                    <h4>Useful Resources:</h4>
-                    <a href="https://www.nature.com/articles/d41586-018-01402-2" target="_blank">Nature: The Axolotl Genome Unlocked</a>
-                    <a href="https://news.harvard.edu/gazette/" target="_blank">Harvard Research: Regeneration and Cancer</a>
+                    <img src="images/axecanc.jpg" alt="" class="article-image">
                 </div>
             </div>
 
-            <!-- part: Where to Get -->
+           
             <div id="full-where-to-get" class="full-article-content article-section" style="flex-direction: column;">
                 <div class="article-title" style="cursor: default; text-decoration: none;">Where to get an Axolotl (In-Depth)</div>
                 <div style="display: flex; gap: 40px; margin-bottom: 30px;">
                     <div class="article-text">
-                        <p>Deciding to purchase an axolotl is a 10 to 15-year commitment. Because of their specialized needs, where you buy them matters immensely.</p>
-                        <h3>Red Flags in Pet Stores</h3>
-                        <p>Large chain pet stores frequently misunderstand axolotl care. Red flags include: axolotls housed on gravel (deadly impaction risk), housed with fish (fish will nip their gills), or kept in warm water (causes fungal infections). If the gills look shrunken or curled forward, the animal is highly stressed.</p>
+                        <p>Deciding to purchase an axolotl is a 10 to 15-year commitment.</p>
                         <h3>The Best Sources</h3>
-                        <p>Always buy from specialized exotic breeders, either locally at reptile/amphibian expos, or through reputable online breeders who ship overnight in insulated boxes. Good breeders track genetics to avoid severe inbreeding.</p>
-                        <h3>Preparation Before Buying</h3>
-                        <p>Never buy an axolotl on a whim. Your tank must undergo the "Nitrogen Cycle" (growing beneficial bacteria to process waste) for 4-6 weeks *before* the animal arrives. You must also have your water cooling method (chiller or fans) established beforehand.</p>
+                        <p>Always buy from specialized exotic breeders. Avoid chain pet stores as they often keep them in improper, warm conditions. Ensure your tank is fully "cycled" before bringing them home.</p>
                     </div>
-                    <img src="images/axolotl4.jpg" alt="" class="article-image">
-                </div>
-                <div class="useful-links">
-                    <h4>Useful Resources:</h4>
-                    <a href="https://www.caudata.org/forum/" target="_blank">Caudata.org: Breeder Forums & Reviews</a>
-                    <a href="https://discord.com/invite/axolotls" target="_blank">Axolotl Discord Community (Find Breeders)</a>
+                    <img src="images/tank.jpg" alt="" class="article-image">
                 </div>
             </div>
 
             
-
             <div id="full-how-to-care" class="full-article-content article-section" style="flex-direction: column;">
                 <div class="article-title" style="cursor: default; text-decoration: none;">How to take care of an Axolotl (In-Depth)</div>
+                
+                <div class="warning-box">
+                     WARNING: These guidelines are a general overview and may not work perfectly for every specific situation or a sick animal. It is always best to research extensively and consult an exotic veterinarian for medical issues!
+                </div>
+
                 <div style="display: flex; gap: 40px; margin-bottom: 30px;">
                     <div class="article-text">
-                        <p>Axolotls are biologically demanding. They require a pristine, cold aquatic environment. A failure to maintain water parameters usually results in illness.</p>
-                        <h3>Water Parameters & Temperature</h3>
-                        <p>Temperature must remain between 60°F - 64°F (15°C - 18°C). Above 68°F, they become severely stressed and prone to fungus. Water must be fully dechlorinated. Ammonia and Nitrite levels must be exactly 0ppm, and Nitrates kept under 20ppm through weekly 20% water changes.</p>
-                        <h3>Filtration & Flow</h3>
-                        <p>Axolotls have high bioloads (they produce a lot of waste), meaning you need a powerful filter. However, they hate fast-moving water currents. Sponge filters or canister filters with a spray bar attached to baffle the flow are highly recommended.</p>
-                        <h3>Dietary Needs</h3>
-                        <p>Hatchlings eat live baby brine shrimp or daphnia. Adults thrive on a staple diet of live earthworms, nightcrawlers, and high-protein axolotl-specific sinking pellets. Avoid feeding them "feeder fish" as fish can carry parasites and lack proper nutrients.</p>
+                        <h3>Tank Setup Overview</h3>
+                        <p>A minimum of a 20-gallon long tank is required for a single adult. They need floor space more than height. Use a low-flow filter (like a sponge filter) because strong water currents stress them out. Provide dark hides (like PVC pipes or terracotta pots) as they do not have eyelids and dislike bright light.</p>
+                        
+                        <h3>Water Temperature</h3>
+                        <p>Temperature is the #1 killer of captive axolotls. The water <strong>must</strong> remain between 60°F - 64°F (15°C - 18°C). Anything above 68°F causes severe stress, fungus, and death. You will likely need an aquarium chiller or clip-on cooling fans.</p>
+                        
+                        <h3>Water Chemistry (The Nitrogen Cycle)</h3>
+                        <p>You cannot put an axolotl in tap water. The tank must be fully "cycled" before adding the animal. Parameters must be exactly: Ammonia 0 ppm, Nitrite 0 ppm, and Nitrates under 20 ppm. The pH should be stable between 6.5 and 7.5. Do 20% water changes weekly using a safe water conditioner.</p>
                     </div>
-                    <img src="images/axolotl5.jpg" alt="" class="article-image">
+                    <img src="images/cute.jpg" alt="" class="article-image">
                 </div>
-                <div class="useful-links">
-                    <h4>Useful Resources:</h4>
-                    <a href="https://www.axolotlcentral.com/axolotl-care-guide" target="_blank">Axolotl Central: Comprehensive Care Guide</a>
-                    <a href="https://www.aquariumcoop.com/blogs/aquarium/nitrogen-cycle" target="_blank">Aquarium Co-Op: Understanding the Nitrogen Cycle</a>
+
+                <div class="article-text" style="margin-bottom: 30px;">
+                    <h3>Substrate</h3>
+                    <p>Never use gravel! Axolotls are vacuum feeders and will swallow rocks, causing fatal intestinal blockages (impaction). You must use either a bare-bottom tank, large tiles, or very fine aquarium sand (only for axolotls over 5 inches long).</p>
+                    
+                    <h3>What Do They Eat?</h3>
+                    <p>Axolotls are strict carnivores. Adults should be fed live earthworms or nightcrawlers every 2 to 3 days. High-quality sinking carnivore pellets are also acceptable. Bloodworms are like candy—they are great for babies, but lack the nutrition needed for adults and should only be given as occasional treats.</p>
                 </div>
-                
 
-
-            
+                <div style="display: flex; gap: 40px; background: #fff; padding: 30px; border: 4px solid #000; border-radius: 20px; box-shadow: 6px 6px 0px #ffb3d9;">
+                    <img src="images/morphaxe.jpg" alt="" class="article-image" style="width: 350px; height: 250px;">
+                    <div class="article-text">
+                        <h3>A Note on "Morphing"</h3>
+                        <p>Because axolotls are neotenic, they are meant to stay aquatic forever. However, under extreme stress, horrific water conditions, or exposure to iodine/thyroid hormones, an axolotl might forcibly "morph" into a terrestrial (land-dwelling) salamander.</p>
+                        <p>This process is incredibly stressful, drastically shortens their lifespan to just a few years, and requires a completely different land-based terrarium setup to keep them alive. This is exactly why maintaining perfect, cold aquatic parameters is critical!</p>
+                    </div>
+                </div>
 
                 <div style="width: 100%; text-align: center; margin-top: 40px; border-top: 5px dashed #ffb3d9; padding-top: 40px;">
                     <button class="tank-btn">ENTER TANK</button>
                 </div>
-
             </div>
+        </div>
+    </div>
 
+   
+    <div id="ocean-scene" class="scene">
+        <div class="diving-text">DIVING INTO THE SEA...</div>
+        <div class="loading-container">
+            <div class="loading-bar" id="loading-bar"></div>
+        </div>
+    </div>
+
+    
+    <div id="terminal-scene" class="scene">
+        <div class="terminal-header">
+            <h2 style="color: #87ceeb; font-family: 'Space Grotesk';">Lake Xochimilco Uplink</h2>
+            <button class="terminal-close" onclick="closeTerminal()">DISCONNECT (X)</button>
+        </div>
+        <div id="terminal-container"></div>
+    </div>
+
+    
+    <div id="paper-modal" class="modal-overlay">
+        <button class="modal-close" onclick="closeModal('paper-modal')">CLOSE (X)</button>
+        <div class="modal-content">
+            <h1>Regeneration of the Axolotl Limb</h1>
+            <p><strong>Abstract Reference:</strong> PMC4895312</p>
+            <hr style="margin: 20px 0;">
+            <p>The Mexican axolotl (Ambystoma mexicanum) serves as a premier model for vertebrate regeneration. Upon amputation of a limb, the axolotl does not form a permanent scar tissue as mammals do. Instead, the epidermis rapidly covers the wound site.</p>
+            <br>
+            <p>Cells beneath this wound epidermis begin to <em>dedifferentiate</em>, losing their mature cellular identity. They form a mass of progenitor cells known as the <strong>blastema</strong>. The formation and proliferation of the blastema are highly dependent on nerve signaling and the presence of critical immune cells, specifically macrophages.</p>
+            <br>
+            <p>Without macrophages, the axolotl will form scar tissue (fibrosis) and fail to regenerate, proving that immune regulation is the absolute key to unlocking scar-free healing. Once the blastema reaches a critical mass, the cells redifferentiate into bone, muscle, blood vessels, and skin, perfectly replacing the lost appendage.</p>
+            <hr style="margin: 20px 0;">
+            <p><strong>Original Study Link:</strong> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4895312/" target="_blank" style="color: #a68a61;">View on NCBI</a></p>
+        </div>
+    </div>
+
+    
+
+    <div id="web-modal" class="modal-overlay">
+        <button class="modal-close" onclick="closeModal('web-modal')">CLOSE (X)</button>
+        <div class="modal-content">
+            <div class="retro-web-header">The Neoteny & Regeneration Archive</div>
+            <div class="retro-taskbar">
+                <div class="taskbar-btn active" onclick="switchRetroTab('tab-def', this)">Key Definitions</div>
+                <div class="taskbar-btn" onclick="switchRetroTab('tab-main', this)">Main Idea</div>
+                <div class="taskbar-btn" onclick="switchRetroTab('tab-ongoing', this)">Ongoing</div>
+                <div class="taskbar-btn" onclick="switchRetroTab('tab-end', this)">Conclusion</div>
+            </div>
+            <div class="retro-body">
+                <div id="tab-def" class="retro-tab active">
+                    <h2>Key Definitions</h2>
+                    <p><strong>Neoteny:</strong> The retention of juvenile or larval traits in the adult form. Axolotls remain in their aquatic, gilled stage their whole lives.</p>
+                    <p><strong>Blastema:</strong> A mass of undifferentiated cells capable of growth and regeneration into organs or body parts.</p>
+                    <p><strong>Macrophages:</strong> A type of white blood cell that engulfs and digests cellular debris. They are the "switch" that prevents scarring in axolotls.</p>
+                </div>
+                <div id="tab-main" class="retro-tab">
+                    <h2>The Main Idea: Helping Mammals</h2>
+                    <p>When mammals (like humans) suffer a severe injury or heart attack, the body prioritizes closing the wound quickly by creating fibrous scar tissue. Scar tissue patches the hole but ruins the organ's function.</p>
+                    <p>Axolotls bypass the scarring phase. If researchers can figure out how to chemically mimic the axolotl's macrophage response in humans, we could potentially regenerate damaged human hearts, repair spinal cords, and regrow lost tissues without debilitating scars.</p>
+                </div>
+                <div id="tab-ongoing" class="retro-tab">
+                    <h2>Ongoing Research</h2>
+                    <p>In 2018, scientists fully sequenced the axolotl genome. It has 32 billion base pairs—10 times larger than the human genome!</p>
+                    <p>Current research at institutions like Harvard is focused on mapping the exact RNA sequences that activate the blastema. By comparing this massive genetic code to humans, they are finding the exact genetic "switches" we are missing.</p>
+                </div>
+                <div id="tab-end" class="retro-tab">
+                    <h2>Conclusion</h2>
+                    <p>Thank you for diving deep into the science of Ambystoma mexicanum.</p>
+                    <p>These creatures are more than just internet sensations; they are the key to the future of regenerative medicine.</p>
+                    <p><em>Goodbye, and remember: Protect the wild habitats of Xochimilco!</em></p>
+                </div>
+            </div>
         </div>
     </div>
 
    
 
     <script>
-      
-
+        // 
         function enterMainSite() {
-            document.getElementById('welcome-scene').style.display = 'none';
-            document.getElementById('main-scene').style.display = 'block';
+            document.getElementById('welcome-scene').classList.remove('active');
+            document.getElementById('main-scene').classList.add('active');
             window.scrollTo(0, 0); 
         }
 
-       
-
         function toggleMenu() {
             const sidebar = document.getElementById('sidebar');
-            if(sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-            } else {
-                sidebar.classList.add('open');
-            }
+            sidebar.classList.toggle('open');
         }
-
-
 
         function jumpToSection(sectionId) {
             document.getElementById('sidebar').classList.remove('open');
             document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
         }
 
-      
-
-
         function filterArticles() {
             const input = document.getElementById('search-input').value.toLowerCase();
             const articles = document.querySelectorAll('#main-scene .article-section');
-            
-            articles.forEach(function(article) {
+            articles.forEach(article => {
                 const text = article.innerText.toLowerCase();
-                if(text.includes(input)) {
-                    article.style.display = 'flex';
-                } else {
-                    article.style.display = 'none';
-                }
+                article.style.display = text.includes(input) ? 'flex' : 'none';
             });
         }
 
-
-
         function openFullArticle(fullArticleId) {
-        
-
-            document.getElementById('main-scene').style.display = 'none';
-            document.getElementById('full-article-scene').style.display = 'block';
-
-        
+            document.getElementById('main-scene').classList.remove('active');
+            document.getElementById('full-article-scene').classList.add('active');
             const allFullArticles = document.querySelectorAll('.full-article-content');
-            allFullArticles.forEach(function(el) {
-                el.style.display = 'none';
-            });
-
-
-
+            allFullArticles.forEach(el => el.style.display = 'none');
             document.getElementById(fullArticleId).style.display = 'flex';
             window.scrollTo(0, 0);
         }
 
-        
-
-
         function backToMainSite() {
-            document.getElementById('full-article-scene').style.display = 'none';
-            document.getElementById('main-scene').style.display = 'block';
+            document.getElementById('full-article-scene').classList.remove('active');
+            document.getElementById('main-scene').classList.add('active');
             window.scrollTo(0, 0);
         }
 
-       
-        function openTerminal() {
-            // Will add terminal logic here latr
-            console.log("Terminal button clicked. Awaiting further instructions.");
+        
+
+
+
+        function startTerminalSequence() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('main-scene').classList.remove('active');
+            document.getElementById('full-article-scene').classList.remove('active');
+            
+            const ocean = document.getElementById('ocean-scene');
+            ocean.classList.add('active');
+
+            for(let i=0; i<15; i++){
+                let b = document.createElement('div');
+                b.className = 'bubbles';
+                b.style.left = Math.random() * 100 + 'vw';
+                b.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                ocean.appendChild(b);
+            }
+
+            let bar = document.getElementById('loading-bar');
+            bar.style.width = '0%';
+            setTimeout(() => { bar.style.transition = 'width 3s linear'; bar.style.width = '100%'; }, 100);
+
+            setTimeout(() => {
+                ocean.classList.remove('active');
+                document.getElementById('terminal-scene').classList.add('active');
+                initCustomTerminal();
+            }, 3500);
         }
+
+        function closeTerminal() {
+            document.getElementById('terminal-scene').classList.remove('active');
+            document.getElementById('main-scene').classList.add('active');
+        }
+
+        
+
+
+        let term;
+        let currentDir = 'root'; 
+        let cmdHistory = [];
+        let historyIndex = 0;
+
+        function initCustomTerminal() {
+            if(term) return; 
+            
+            term = new Terminal({
+                theme: { background: '#001a33', foreground: '#e0f7fa', cursor: '#87ceeb' },
+                fontFamily: "'Space Grotesk', monospace",
+                fontSize: 18,
+                cursorBlink: true
+            });
+            
+            term.open(document.getElementById('terminal-container'));
+            term.write('Welcome to the native home of Axolotls. Yes, we are in Mexico (Lake Xochimilco) feel free to explore around and use the help command.\r\n\r\n');
+            prompt();
+
+            let currentLine = '';
+
+            term.onData(e => {
+                
+
+                if (e === '\r') {
+                    term.write('\r\n');
+                    if (currentLine.trim() !== '') {
+                        cmdHistory.push(currentLine.trim());
+                    }
+                    historyIndex = cmdHistory.length;
+                    processCommand(currentLine.trim());
+                    currentLine = '';
+                    prompt();
+                } 
+                
+                else if (e === '\u007F') { 
+                    if (currentLine.length > 0) {
+                        currentLine = currentLine.substring(0, currentLine.length - 1);
+                        term.write('\b \b');
+                    }
+                } 
+               
+
+
+                else if (e === '\x1b[A') { 
+                    if (historyIndex > 0) {
+                       
+
+
+                        while (currentLine.length > 0) {
+                            term.write('\b \b');
+                            currentLine = currentLine.substring(0, currentLine.length - 1);
+                        }
+                        historyIndex--;
+                        currentLine = cmdHistory[historyIndex];
+                        term.write(currentLine);
+                    }
+                } 
+                
+                else if (e === '\x1b[B') { 
+                    if (historyIndex < cmdHistory.length) {
+                        
+
+                        while (currentLine.length > 0) {
+                            term.write('\b \b');
+                            currentLine = currentLine.substring(0, currentLine.length - 1);
+                        }
+                        historyIndex++;
+                        if (historyIndex === cmdHistory.length) {
+                            currentLine = '';
+                        } else {
+                            currentLine = cmdHistory[historyIndex];
+                        }
+                        term.write(currentLine);
+                    }
+                } 
+                
+                else if (e.length === 1 && e.charCodeAt(0) >= 32 && e.charCodeAt(0) <= 126) {
+                    currentLine += e;
+                    term.write(e);
+                }
+            });
+        }
+
+        function prompt() {
+            let path = currentDir === 'root' ? '~' : `~/${currentDir}`;
+            term.write(`\r\n\x1b[38;5;51mxochimilco@lake:\x1b[0m\x1b[38;5;15m${path}$ \x1b[0m`);
+        }
+
+        function processCommand(cmd) {
+            let args = cmd.split(' ');
+            let mainCmd = args[0].toLowerCase();
+
+            if (mainCmd === '') return;
+
+            if (mainCmd === 'help') {
+                term.write('Commands:\r\n ls - List files\r\n cd <dir> - Change directory\r\n run <file> - Open a file or website\r\n rm <file> - Delete file\r\n clear - Clear terminal');
+            } 
+            else if (mainCmd === 'clear') {
+                term.clear();
+            }
+            else if (mainCmd === 'rm') {
+                term.write('\x1b[31mEthical Error: YOU TRIED TO DO WHAT!?!\x1b[0m');
+            }
+            else if (mainCmd === 'ls') {
+                if (currentDir === 'root') {
+                    term.write('\x1b[38;5;117maxolotl_images/\x1b[0m   \x1b[38;5;117mresearch/\x1b[0m   diary.txt');
+                } else if (currentDir === 'research') {
+                    term.write('research_web.html   research_paper.txt');
+                } else if (currentDir === 'axolotl_images') {
+                    term.write('cute_gill.png   swimming.jpg');
+                }
+            }
+
+
+            //terminal fixxd
+            else if (mainCmd === 'cd') {
+                let target = args[1];
+                if (!target || target === '~' || target === '/' || target === 'root') {
+                    currentDir = 'root';
+                    return;
+                }
+                target = target.replace(/\/$/, '');
+
+                if (target === '..') {
+                    currentDir = 'root';
+                } else if (target === 'research' || target === 'axolotl_images') {
+                    if (currentDir === 'root') currentDir = target;
+                    else if (currentDir !== target) term.write(`cd: ${target}: No such file or directory`);
+                } else {
+                    term.write(`cd: ${target}: No such file or directory`);
+                }
+            }
+            else if (mainCmd === 'run') {
+                let target = args[1];
+                if (!target) {
+                    term.write('run: missing filename');
+                    return;
+                }
+                
+                if ((currentDir === 'research' && target === 'research_paper.txt') || target === 'research/research_paper.txt') {
+                    term.write('Opening research paper overlay...');
+                    document.getElementById('paper-modal').style.display = 'flex';
+                } 
+                else if ((currentDir === 'research' && target === 'research_web.html') || target === 'research/research_web.html') {
+                    term.write('Opening web archive...');
+                    document.getElementById('web-modal').style.display = 'flex';
+                } 
+                else {
+                    term.write(`run: ${target}: Cannot execute or file not found`);
+                }
+            }
+            else {
+                term.write(`bash: ${mainCmd}: command not found`);
+            }
+        }
+
+        //
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function switchRetroTab(tabId, element) {
+            document.querySelectorAll('.taskbar-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            document.querySelectorAll('.retro-tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+
     </script>
 </body>
 </html>
