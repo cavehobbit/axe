@@ -1,6 +1,6 @@
 A website where you can learn about Axolotls, explore and experiment 
 
-![Uploading Screenshot at 2026-05-06 06-44-31.png…]()
+<img width="966" height="607" alt="Screenshot at 2026-05-06 06-44-31" src="https://github.com/user-attachments/assets/fbc66437-c876-4e39-8192-189e7650b805" />
 
 Click continue to read about them. You can also access the terminal and read Reasearch papers and visit an old research website. Put "help" in the terminal to get a list of the commands you can use. After reading the articles you'll find a tank button where you can explore and experiment with the tank's nitrogen, temperature levels and more. 
 
